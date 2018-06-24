@@ -1,3 +1,4 @@
+# Only about 74% accuratee
 import tensorflow as tf
 import nltk
 import io
