@@ -8,3 +8,5 @@ Tools like pickle are used to reduce the need for internet connections (due to v
 There is generally an example of a classifier, like SVM or K-Nearest_Neighbors, along with another set of code which derives how that code works.
 
 The seperate folder for neural network code is also done through tutorials by Sentdex, and will be added with tutorials through tensorflow and keras as well.
+
+Doing the larger neural network code, especially training the NN, takes hours using the cpu version with the current code. I will be putting the checkpoint in so that the network will not need to be retrained unless desired.
