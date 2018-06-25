@@ -1,0 +1,8 @@
+Documents in this folder are for Neural Networks.
+
+It begins with the simple MNIST dataset which gives around 97.5% accuracy. 
+Then a small positive or negative sentiment NN is developed with about 65% accuracy.
+Then a larger sentiment NN is implemented, which takes hours to finish training 10 epochs and produces about 75% accuracy.
+  There are files like the model and lexicon which can be used without needing to retrain the NN then.
+
+A Recurrent NN for the MNIST dataset is then added, which shows improvements even for image data of 98.5% accuracy.
