@@ -6,10 +6,10 @@ Then a larger sentiment NN is implemented, which takes hours to finish training 
   There are files like the model and lexicon which can be used without needing to retrain the NN then.
 
 A Recurrent NN for the MNIST dataset is then added, which shows improvements even for image data of 98.5% accuracy.
-Then a concurrent NN is attempted for the MNIST dataset, however it actually only shows about 98.5% as well. A larger dataset should improve this
+Then a convolutional NN is attempted for the MNIST dataset, however it actually only shows about 98.5% as well. A larger dataset should improve this
 
-Finally TFlearn is used to create a concurrent NN, which is very clean and easy to do. This actually got up to 99.7% after just three epochs. Not convinced this is correct though, because that is crazy accurate compared to the CNN done with just tensorflow
+Finally TFlearn is used to create a convolutional NN, which is very clean and easy to do. This actually got up to 99.7% after just three epochs. Not convinced this is correct though, because that is crazy accurate compared to the CNN done with just tensorflow
 
 
-I will be looking into doing some more opportunities, maybe other different tutorials or attempting my own with a new dataset, or improving the big sentiment to hopefully get about 85%. I would think a RNN and a neutral output would improve this greatly.
+I will be looking into doing some more opportunities, maybe other different tutorials or attempting my own with a new dataset, or improving the big sentiment to hopefully get about 85% accuracy. I would think a RNN and a neutral label would improve this greatly.
 
