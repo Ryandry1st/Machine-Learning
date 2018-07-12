@@ -1,8 +1,8 @@
-Documents in this folder are for Neural Networks.
+Documents in this folder are for Neural Networks, specifically done through tutorials.
 
 It begins with the simple MNIST dataset which gives around 97.5% accuracy with a classic NN.
 Then a small positive or negative text sentiment NN is developed which produces about 65% accuracy.
-Then a larger sentiment NN is implemented, which takes many hours to finish training 10 epochs and produces about 75% accuracy.
+A larger sentiment NN is implemented in the Sentiment folder, which takes many hours to finish training 10 epochs and produces about 75% accuracy.
   There are files like the model and lexicon which can be used without needing to retrain the NN then.
 
 A Recurrent NN for the MNIST dataset is then added, which shows improvements even for image data, to about 98.5% accuracy.
@@ -10,9 +10,5 @@ Then a convolutional NN is attempted for the MNIST dataset, however it actually 
 
 Finally TFlearn is used to create a convolutional NN, which is very clean and easy to do. This actually got up to 99.7% after just three epochs. Not convinced this is correct though, because that is crazy accurate compared to the CNN done with just tensorflow
 
-
 I will be looking into doing some more opportunities, maybe other different tutorials or attempting my own with a new dataset, or improving the big sentiment to hopefully get about 85% accuracy. I would think a RNN and a neutral label would improve this greatly.
 
-As of 7/8/2018 current efforts are to improve the sentiment. I am first attempting to increase the lexicon size, because it previously only had about 2500 words in it. I noticed many key words were not included, for example "bummer" from the training data, which would show the sentiment very easily. Increasing the lexicon size has only produced an improvement of about 1.5% with 15 epochs. 
-
-A new network type is clearly the way to go to cross the performance gap, because the previous attempt took 24 hours to do 15 epochs for 1.5% improvement.
