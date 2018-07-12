@@ -1,0 +1,7 @@
+This folder contains code that is generally done by either piecing together parts from various tutorials, or through individual research.
+
+The focus is on creating a neural network with a higher degree of accuracy (about 85%) for sentiment analysis. In the small tutorials, a neural network was made which could do 65% accuracy, which was not impressive. Then a larger one was implemented which had 75% accuracy but was very poor at predictions. This was scaled up to a much larger neural network, with 15 epochs and training for 24 hours, which yielded 76.5% and barely better predictions. 
+
+The most recent strategy implements a recurrent neural network using the same lexicon from before, and with keras and word embeddings, it can reach about 81% after a few hours of training. Its predicitons are generally good, especially if the words used are known to it. 
+
+The next strategy will be to look into increasing the size, tuning some parameters, and seeing if around 83% is managable. I have not determined my next step for reaching a new tier of accuracy, but it will likely be a different network configuration.
