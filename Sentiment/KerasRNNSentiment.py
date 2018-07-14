@@ -1,8 +1,6 @@
 import numpy as np
 import pickle
-import pandas as pd
 import tensorflow as tf
-from collections import Counter
 import nltk
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
@@ -14,9 +12,12 @@ from keras.layers import Embedding, LSTM, Dense, Dropout, GRU
 from keras.models import load_model
 
 # working with embedding layers for increasing vocabulary size
+# 80.8% accuracy with around 50 epochs of 64 batch size and 3 lstm layers
+# adding a dense layer before the output layer increased accuracy above 81.1%
+
 lemmatizer = WordNetLemmatizer()
-batch_size = 64
-hm_epochs = 40
+batch_size = 128
+hm_epochs = 5
 embedding_size = 400
 maxseqlen = 40
 
@@ -27,62 +28,22 @@ maxvocab = len(lexicon)
         
 def RNN():
 
-    def makedata():
-        with open('train_set_shuffled.csv', 'r', buffering = 100000, encoding="latin-1") as f:
-            X = []
-            Y = []
-            xset = []
-            for line in f:
-                score = line.split(':::')[0]
-                Y.append((score[4]))
-                tweet = line.split(':::')[1]
-                tweet = [lemmatizer.lemmatize(i) for i in word_tokenize(tweet.lower())]
-                tweet = [c for c in tweet if c not in punctuation]
-                tweet = [c for c in tweet if c != '...']
-                X.append(tweet)
-
-        for response in X:
-            content = []
-            for word in response:
-                if word in lexicon:
-                    index_val = lexicon.index(word)
-                    content.append(index_val+1)
-            xset.append(content)
-
-        newx = []
-        newy = []
-
-        for i, row in enumerate(xset):
-            if len(row) > 0:
-                newx.append(row[0:maxseqlen])
-                newy.append(Y[i])
-
-        features = np.zeros((len(newx), maxseqlen), dtype=int)
-        for i, row in enumerate(newx):
-            features[i, -len(row):] = np.array(row)[:maxseqlen]
-
-        with open('XY.pickle', 'wb') as f:
-            pickle.dump((features, newy), f)
-
-    # do one time!
-    # makedata()
-
     with open('XY.pickle', 'rb') as f:
         features, Y = pickle.load(f)
         
-    split_index = int(0.80*len(features))
+    split_index = int(0.9*len(features))
     train_x, val_x = features[:split_index], features[split_index:]
     train_y, val_y = Y[:split_index], Y[split_index:]
 
-    split_index = int(0.6*len(val_x))
-    val_x, test_x = val_x[:split_index], val_x[split_index:]
-    val_y, test_y = val_y[:split_index], val_y[split_index:]
+    with open('testpick.pickle', 'rb') as f:
+        test_x, test_y = pickle.load(f)
 
     def batcher(x, y, batch_size):
         n_batches = len(x)//batch_size
         x, y = x[:n_batches*batch_size], y[:n_batches*batch_size]
         while True:
-            for i in range(0, len(x), batch_size):
+            ran = np.random.randint(len(x)//batch_size)
+            for i in range(batch_size*ran, len(x), batch_size):
                 yield np.array(x[i:i+batch_size]), np.array(y[i:i+batch_size])
 
 
@@ -98,19 +59,21 @@ def RNN():
             model.add(Embedding(maxvocab+1, embedding_size, input_length=maxseqlen))
             model.add(LSTM(128, dropout=0.4, recurrent_dropout=0.4, return_sequences=True))
             model.add(LSTM(64, dropout=0.4, recurrent_dropout=0.4, return_sequences=True))
-            model.add(LSTM(64, dropout=0.4, recurrent_dropout=0.4))
+            model.add(LSTM(64, dropout=0.4, recurrent_dropout=0.4, return_sequences=True))
+            model.add(LSTM(32, dropout=0.4, recurrent_dropout=0.4))
             model.add(Dense(1, activation='sigmoid'))
 
             print(model.summary())
             return model
 
+        # either comment out the first build or the loading for training when running
         model = firstbuild()
         
         def training():
             # model = load_model('rnnmodel.h5')
 
             model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-            history = model.fit_generator(train_batcher, steps_per_epoch=500, epochs=hm_epochs,
+            history = model.fit_generator(train_batcher, steps_per_epoch=300, epochs=hm_epochs,
                                           validation_data=val_batcher, validation_steps=val_steps,
                                           verbose = 2)
             model.save('rnnmodel.h5')
@@ -147,5 +110,10 @@ def makeprediction(sentence):
     features = np.zeros((1,maxseqlen), dtype=int)
     features[0, -len(int_words):] = np.array(int_words)[:maxseqlen]
             
-    print(model.predict_classes(features))
+    pred = model.predict_classes(features)
+    if pred == [[1]]:
+        print("Positive! :)")
+    else:
+        print("Negative :(")
+        
     
