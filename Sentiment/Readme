@@ -5,3 +5,5 @@ The focus is on creating a neural network with a higher degree of accuracy (abou
 The most recent strategy implements a recurrent neural network using the same lexicon from before, and with keras and word embeddings, it can reach about 81% after a few hours of training. Its predicitons are generally good, especially if the words used are known to it. 
 
 The next strategy will be to look into increasing the size, tuning some parameters, and seeing if around 83% is managable. I have not determined my next step for reaching a new tier of accuracy, but it will likely be a different network configuration.
+
+It seems that the vocabulary is limiting the network because the vocabulary only includes about 13,000 words, and most of my own tests that fail are due to unknown words.
